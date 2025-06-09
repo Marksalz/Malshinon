@@ -11,5 +11,11 @@ namespace Malshinon
         static void Main(string[] args)
         {
         }
+
+        public void PersonIdentification()
+        {
+            Console.WriteLine("Please enter your full name: ");
+            string name = Console.ReadLine();
+        }
     }
 }
