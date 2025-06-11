@@ -10,7 +10,7 @@ namespace Malshinon
         public static MySqlConnection Connect(string cs = null)
         {
             var connStr = string.IsNullOrWhiteSpace(cs)
-                ? "server=localhost;uid=root;database=eagleeyedb"
+                ? "server=localhost;uid=root;database=malshinon"
                 : cs;
 
             var conn = new MySqlConnection(connStr);

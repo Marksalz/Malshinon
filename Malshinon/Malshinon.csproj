@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\PeopleDAL.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Program.cs" />
