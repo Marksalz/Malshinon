@@ -10,51 +10,53 @@ namespace Malshinon.DAL
 {
     public static class IntelDAL
     {
-        //public static void SubmitReport(string report, string reporterCode)
-        //{
-        //    string targetName = ExtractNameOfTarget(report);
-        //    if (string.IsNullOrWhiteSpace(targetName))
-        //    {
-        //        Console.WriteLine("No target name found in the report. Please include a target name.");
-        //        return;
-        //    }
-        //    string[] nameSplit = targetName.Split(' ');
-        //    Dictionary<string, object> targetPerson = PeopleDAL.GetPeople(nameSplit[0], nameSplit[1]).FirstOrDefault();
-        //    if (targetPerson == null)
-        //    {
-        //        Console.WriteLine("Target person not found in the database. Adding to database.");
-        //        PeopleDAL.AddPerson(nameSplit[0], nameSplit[1], Enum.Status.Target);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine($"Target person {targetPerson["first_name"]} {targetPerson["last_name"]} already exists in the database.");
-        //    }
-        //    int reporterId = PeopleDAL.GetPersonId(reporterCode);
-        //    int targetId;
-        //    if (targetPerson == null)
-        //    {
-        //        // The person was just added, so retrieve by name again
-        //        Dictionary<string, object> addedPerson = PeopleDAL.GetPeople(nameSplit[0], nameSplit[1]).FirstOrDefault();
-        //        if (addedPerson == null)
-        //        {
-        //            Console.WriteLine("Failed to retrieve the newly added target person.");
-        //            return;
-        //        }
-        //        targetId = PeopleDAL.GetPersonId(addedPerson["secret_code"].ToString());
-        //    }
-        //    else
-        //    {
-        //        targetId = PeopleDAL.GetPersonId(targetPerson["secret_code"].ToString());
-        //    }
-        //    AddIntelReport(reporterId, targetId, report);
-        //    Console.WriteLine($"Report submited succsefully! ");
-        //}
-
         public static void AddIntelReport(int reporterId, int targetId, string report)
         {
+            // Insert the intel report
             DBConnection.Execute(
                 $"INSERT INTO intelreports (reporter_id, target_id, intel_text)\r\n" +
                 $"VALUES ('{reporterId}', '{targetId}', '{report}')\r\n");
+
+            // Increment reporter's num_reports
+            DBConnection.Execute(
+                $"UPDATE people SET num_reports = IFNULL(num_reports,0) + 1 WHERE id = {reporterId}");
+
+            // Increment target's num_mentions
+            DBConnection.Execute(
+                $"UPDATE people SET num_mentions = IFNULL(num_mentions,0) + 1 WHERE id = {targetId}");
+
+            // Check reporter's thresholds
+            var reporterStats = DBConnection.Execute(
+                $"SELECT num_reports, " +
+                $"(SELECT AVG(CHAR_LENGTH(intel_text)) FROM intelreports WHERE reporter_id = {reporterId}) AS avg_length, " +
+                $"type FROM people WHERE id = {reporterId}");
+
+            if (reporterStats.Count > 0)
+            {
+                int numReports = Convert.ToInt32(reporterStats[0]["num_reports"] ?? 0);
+                double avgLength = Convert.ToDouble(reporterStats[0]["avg_length"] ?? 0);
+                int type = Convert.ToInt32(reporterStats[0]["type"] ?? 0);
+
+                if (numReports >= 10 && avgLength >= 100 && type != (int)Enum.Status.PotentialAgent)
+                {
+                    DBConnection.Execute(
+                        $"UPDATE people SET type = {(int)Enum.Status.PotentialAgent} WHERE id = {reporterId}");
+                    Console.WriteLine("Status update: Reporter promoted to Potential Agent.");
+                }
+            }
+
+            // Check target's thresholds
+            var targetStats = DBConnection.Execute(
+                $"SELECT num_mentions FROM people WHERE id = {targetId}");
+
+            if (targetStats.Count > 0)
+            {
+                int numMentions = Convert.ToInt32(targetStats[0]["num_mentions"] ?? 0);
+                if (numMentions >= 20)
+                {
+                    Console.WriteLine("Potential threat alert: Target has been mentioned 20 or more times.");
+                }
+            }
         }
 
         public static string ExtractNameOfTarget(string report)

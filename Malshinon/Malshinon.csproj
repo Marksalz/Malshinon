@@ -99,7 +99,7 @@
     <Compile Include="DAL\PeopleDAL.cs" />
     <Compile Include="DB\DBConnection.cs" />
     <Compile Include="Enum.cs" />
-    <Compile Include="Parameter.cs" />
+    <Compile Include="DB\Parameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IntelService.cs" />

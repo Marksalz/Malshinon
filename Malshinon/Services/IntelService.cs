@@ -28,16 +28,19 @@ namespace Malshinon.Services
             Console.WriteLine("Report submitted successfully!");
         }
 
-        public static string ExtractNameOfTarget(string report)
+        public static string ExtractNameOfTarget(string input)
         {
-            string[] words = report.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
             for (int i = 0; i < words.Length - 1; i++)
             {
                 string first = Clean(words[i]);
                 string second = Clean(words[i + 1]);
+
                 if (IsCapitalized(first) && IsCapitalized(second))
                     return first + " " + second;
             }
+
             return null;
         }
 
@@ -45,11 +48,13 @@ namespace Malshinon.Services
         {
             if (string.IsNullOrWhiteSpace(word) || word.Length < 2)
                 return false;
+
             return char.IsUpper(word[0]) && word.Substring(1) == word.Substring(1).ToLower();
         }
 
         public static string Clean(string word)
         {
+            // Remove punctuation from start and end  
             return word.Trim('.', ',', ':', ';', '!', '?', '"', '\'');
         }
     }
