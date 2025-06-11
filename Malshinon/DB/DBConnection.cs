@@ -2,10 +2,9 @@
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
-
-namespace Malshinon
+namespace Malshinon.DB
 {
-    internal class DBConnection
+    public static class DBConnection
     {
         public static MySqlConnection Connect(string cs = null)
         {
@@ -25,7 +24,6 @@ namespace Malshinon
             var cmd = new MySqlCommand { CommandText = sql };
             return cmd;
         }
-
 
         private static MySqlDataReader Send(MySqlConnection conn, MySqlCommand cmd)
         {
@@ -61,7 +59,6 @@ namespace Malshinon
             return Parse(rdr);
         }
 
-
         public static void PrintResult(List<Dictionary<string, object>> keyValuePairs)
         {
             if (keyValuePairs.Count == 0)
@@ -69,7 +66,6 @@ namespace Malshinon
                 Console.WriteLine("No results found.");
                 return;
             }
-
 
             foreach (var row in keyValuePairs)
             {
