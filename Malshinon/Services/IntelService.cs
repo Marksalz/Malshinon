@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Malshinon.DAL;
+using Malshinon.Services;
 
 namespace Malshinon.Services
 {
@@ -25,7 +26,14 @@ namespace Malshinon.Services
             int reporterId = PeopleService.GetPersonIdBySecretCode(reporterCode);
             int targetId = PeopleService.GetPersonIdBySecretCode(targetPerson["secret_code"].ToString());
             IntelDAL.AddIntelReport(reporterId, targetId, report);
-            Console.WriteLine("Report submitted successfully!");
+            AlertService.genarateAlertIfNeeded(targetId);
+            //Console.WriteLine("Report submitted successfully!");
+        }
+
+        public static void submitReportFromCsv(int reporterId, int targetId, string intelText, string timestamp)
+        {
+            IntelDAL.AddIntelReportWithTimestamp(reporterId, targetId, intelText, timestamp);
+            AlertService.genarateAlertIfNeeded(targetId);
         }
 
         public static string ExtractNameOfTarget(string input)

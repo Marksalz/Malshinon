@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\AlertDAL.cs" />
     <Compile Include="DAL\IntelDAL.cs" />
     <Compile Include="DAL\PeopleDAL.cs" />
     <Compile Include="DB\DBConnection.cs" />
@@ -102,11 +103,15 @@
     <Compile Include="DB\Parameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AlertService.cs" />
     <Compile Include="Services\IntelService.cs" />
     <Compile Include="Services\PeopleService.cs" />
+    <Compile Include="Utils\InitializeDBFromCSV.cs" />
+    <Compile Include="Utils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="csv reports.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

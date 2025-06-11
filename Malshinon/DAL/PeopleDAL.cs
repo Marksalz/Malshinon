@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Malshinon.DB;
+using Utils;
 
 namespace Malshinon.DAL
 {
@@ -11,6 +12,7 @@ namespace Malshinon.DAL
             DBConnection.Execute(
                 $"INSERT INTO people (first_name, last_name, secret_code, type)\r\n" +
                 $"VALUES ('{firstName}', '{lastName}', '{GenerateSecretCode(firstName, lastName)}', '{(int)status}')\r\n");
+            Logger.Log($"New person created: {firstName} {lastName} (Status: {status})");
         }
 
         public static string GenerateSecretCode(string firstName, string lastName)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Malshinon.DAL;
 using Malshinon.DB;
+using Utils;
 
 namespace Malshinon.DAL
 {
@@ -17,6 +18,8 @@ namespace Malshinon.DAL
                 $"INSERT INTO intelreports (reporter_id, target_id, intel_text)\r\n" +
                 $"VALUES ('{reporterId}', '{targetId}', '{report}')\r\n");
 
+            Logger.Log($"Report submitted by reporter ID {reporterId} on target ID {targetId}.");
+
             // Increment reporter's num_reports
             DBConnection.Execute(
                 $"UPDATE people SET num_reports = IFNULL(num_reports,0) + 1 WHERE id = {reporterId}");
@@ -25,9 +28,34 @@ namespace Malshinon.DAL
             DBConnection.Execute(
                 $"UPDATE people SET num_mentions = IFNULL(num_mentions,0) + 1 WHERE id = {targetId}");
 
-            // Check reporter's thresholds
+            // Check reporter's thresholds and update status if necessary
+            CheckReporterThresholds(reporterId);
+        }
+
+        // New method for importing with timestamp
+        public static void AddIntelReportWithTimestamp(int reporterId, int targetId, string report, string timestamp)
+        {
+            DBConnection.Execute(
+                $"INSERT INTO intelreports (reporter_id, target_id, intel_text, intel_timestamp)\r\n" +
+                $"VALUES ('{reporterId}', '{targetId}', '{report}', '{timestamp}')\r\n");
+
+            Logger.Log($"[CSV Import] Report submitted by reporter ID {reporterId} on target ID {targetId} at {timestamp}.");
+
+            DBConnection.Execute(
+                $"UPDATE people SET num_reports = IFNULL(num_reports,0) + 1 WHERE id = {reporterId}");
+
+            DBConnection.Execute(
+                $"UPDATE people SET num_mentions = IFNULL(num_mentions,0) + 1 WHERE id = {targetId}");
+
+            CheckReporterThresholds(reporterId);
+        }
+
+        public static void CheckReporterThresholds(int reporterId)
+        {
+            // Get reporter's number of reports from intelreports table
             var reporterStats = DBConnection.Execute(
-                $"SELECT num_reports, " +
+                $"SELECT " +
+                $"(SELECT COUNT(*) FROM intelreports WHERE reporter_id = {reporterId}) AS num_reports, " +
                 $"(SELECT AVG(CHAR_LENGTH(intel_text)) FROM intelreports WHERE reporter_id = {reporterId}) AS avg_length, " +
                 $"type FROM people WHERE id = {reporterId}");
 
@@ -35,29 +63,39 @@ namespace Malshinon.DAL
             {
                 int numReports = Convert.ToInt32(reporterStats[0]["num_reports"] ?? 0);
                 double avgLength = Convert.ToDouble(reporterStats[0]["avg_length"] ?? 0);
-                int type = Convert.ToInt32(reporterStats[0]["type"] ?? 0);
+                int type = 0;
+                if (reporterStats[0]["type"] != null)
+                {
+                    var typeStr = reporterStats[0]["type"].ToString().Trim().ToLower();
+                    switch (typeStr)
+                    {
+                        case "reporter":
+                            type = (int)Enum.Status.Reporter;
+                            break;
+                        case "target":
+                            type = (int)Enum.Status.Target;
+                            break;
+                        case "both":
+                            type = (int)Enum.Status.Both;
+                            break;
+                        case "potential_agent":
+                            type = (int)Enum.Status.PotentialAgent;
+                            break;
+                    }
+                }
 
                 if (numReports >= 10 && avgLength >= 100 && type != (int)Enum.Status.PotentialAgent)
                 {
                     DBConnection.Execute(
                         $"UPDATE people SET type = {(int)Enum.Status.PotentialAgent} WHERE id = {reporterId}");
-                    Console.WriteLine("Status update: Reporter promoted to Potential Agent.");
-                }
-            }
-
-            // Check target's thresholds
-            var targetStats = DBConnection.Execute(
-                $"SELECT num_mentions FROM people WHERE id = {targetId}");
-
-            if (targetStats.Count > 0)
-            {
-                int numMentions = Convert.ToInt32(targetStats[0]["num_mentions"] ?? 0);
-                if (numMentions >= 20)
-                {
-                    Console.WriteLine("Potential threat alert: Target has been mentioned 20 or more times.");
+                    string msg = "Status update: Reporter promoted to Potential Agent.";
+                    Console.WriteLine(msg);
+                    Logger.Log($"Reporter ID {reporterId} promoted to Potential Agent.");
                 }
             }
         }
+
+        
 
         public static string ExtractNameOfTarget(string report)
         {

@@ -74,5 +74,16 @@ namespace Malshinon.DB
                 Console.WriteLine("---");
             }
         }
+
+        public static List<Dictionary<string, object>> GetRecentMentions(int targetId)
+        {
+            var sql = $"SELECT COUNT(*) as mention_count " +
+                      $"FROM intelreports " +
+                      $"WHERE target_id = {targetId} " +
+                      $"AND timestamp >= DATE_SUB(NOW(), INTERVAL 15 MINUTE)";
+
+            var recentMentions = Execute(sql);
+            return recentMentions;
+        }
     }
 }
