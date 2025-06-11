@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Malshinon.DB;
 
 namespace Malshinon.DAL
 {
@@ -17,7 +15,6 @@ namespace Malshinon.DAL
 
         public static string GenerateSecretCode(string firstName, string lastName)
         {
-            // Fix: Replace range operator with substring to ensure compatibility with C# 7.3  
             var code = $"{firstName.Substring(0, 2).ToUpper()}{lastName.Substring(0, 2).ToUpper()}{new Random().Next(100, 999)}";
             return code;
         }
@@ -29,31 +26,29 @@ namespace Malshinon.DAL
                 sql += $" AND first_name LIKE '%{firstName}%'";
             if (!string.IsNullOrWhiteSpace(lastName))
                 sql += $" AND last_name LIKE '%{lastName}%'";
-
             return DBConnection.Execute(sql);
         }
 
         public static List<Dictionary<string, object>> GetPersonBySecretCode(string secretCode)
         {
-            var sql = $"SELECT * FROM people WHERE 1=1 AND secret_code LIKE '{secretCode}'";
+            var sql = $"SELECT * FROM people WHERE secret_code = '{secretCode}'";
             return DBConnection.Execute(sql);
         }
 
         public static int GetPersonId(string secretCode)
         {
             var person = GetPersonBySecretCode(secretCode);
-            if (person != null && person[0].ContainsKey("id"))
+            if (person != null && person.Count > 0 && person[0].ContainsKey("id"))
             {
                 return Convert.ToInt32(person[0]["id"]);
             }
-            return -1; // or throw an exception if preferred  
+            return -1;
         }
 
         public static bool IsPersonExists(string secretCode)
         {
             List<Dictionary<string, object>> person = GetPersonBySecretCode(secretCode);
-            DBConnection.PrintResult(person);
-            return person != null;
+            return person != null && person.Count > 0;
         }
     }
 }

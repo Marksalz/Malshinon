@@ -1,4 +1,5 @@
 ﻿using Malshinon.DAL;
+using Malshinon.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace Malshinon
             string report = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(report))
             {
-                IntelDAL.SubmitReport(report, secretCode);
+                IntelService.SubmitReport(report, secretCode);
             }
             else
             {
