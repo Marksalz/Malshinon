@@ -95,8 +95,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\IntelDAL.cs" />
     <Compile Include="DAL\PeopleDAL.cs" />
     <Compile Include="DBConnection.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

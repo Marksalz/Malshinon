@@ -11,20 +11,20 @@ namespace Malshinon
     {
         static void Main(string[] args)
         {
-            Program program = new Program();
-            program.PersonIdentification();
+            PersonIdentification();
+            IntelSubmission();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
-        public void PersonIdentification()
+        public static void PersonIdentification()
         {
-            PeopleDAL peopleDAL = new PeopleDAL();
+            //PeopleDAL peopleDAL = new PeopleDAL();
             Console.WriteLine("Please enter your first name: ");
             string firstName = Console.ReadLine();
             Console.WriteLine("Please enter your last name: ");
             string lastName = Console.ReadLine();
-            Dictionary<string, object> person = peopleDAL.GetPeople(firstName, lastName).FirstOrDefault();
+            Dictionary<string, object> person = PeopleDAL.GetPeople(firstName, lastName).FirstOrDefault();
             if (person != null)
             {
                 Console.WriteLine($"Welcome {person["first_name"]} {person["last_name"]}!");
@@ -33,7 +33,28 @@ namespace Malshinon
             else
             {
                 Console.WriteLine("Person not found. adding person to DB");
-                peopleDAL.AddPerson(firstName, lastName);
+                PeopleDAL.AddPerson(firstName, lastName);
+            }
+        }
+
+        public static void IntelSubmission()
+        {
+            Console.WriteLine("Please enter your secret code: ");
+            string secretCode = Console.ReadLine();
+            if (!PeopleDAL.IsPersonExists(secretCode))
+            {
+                Console.WriteLine("Secret code not found. Please try again or register as a new person.");
+                return;
+            }
+            Console.WriteLine("Please enter your report here: ");
+            string report = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(report))
+            {
+                IntelDAL.SubmitReport(report, secretCode);
+            }
+            else
+            {
+                Console.WriteLine("Report cannot be empty. Please try again.");
             }
         }
     }
