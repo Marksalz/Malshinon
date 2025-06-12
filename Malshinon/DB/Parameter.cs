@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Malshinon
 {
+    /// <summary>
+    /// Represents a key-value pair parameter used for configuration or data transfer.
+    /// </summary>
     public class Parameter
     {
         public string parameter { get; private set; }

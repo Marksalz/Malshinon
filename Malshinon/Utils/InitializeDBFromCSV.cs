@@ -10,8 +10,16 @@ using Utils;
 
 namespace Malshinon.Utils
 {
+    /// <summary>
+    /// Provides functionality to initialize the database by importing intelligence reports from a CSV file.
+    /// </summary>
     public static class InitializeDBFromCSV
     {
+        /// <summary>
+        /// Prompts the user for a CSV file path and imports intelligence reports from the file into the database.
+        /// Each line in the CSV should contain: reporter_id, reporter_name, target_id, target_name, intel_text, intel_timestamp.
+        /// Logs the import process and any errors encountered.
+        /// </summary>
         public static void ImportReportsFromCsv()
         {
             Console.Write("Enter the path to the CSV file: ");
@@ -55,7 +63,6 @@ namespace Malshinon.Utils
                     }
                     string reporterName = parts[1];
 
-                    
                     int targetId;
                     if (!int.TryParse(parts[2], out targetId) || targetId <= 0)
                     {
@@ -86,7 +93,11 @@ namespace Malshinon.Utils
             //Console.WriteLine($"Import complete. {imported} reports imported, {failed} failed.");
         }
 
-        // Simple CSV parser for comma-separated, optionally quoted fields
+        /// <summary>
+        /// Splits a CSV line into fields, handling quoted fields and commas inside quotes.
+        /// </summary>
+        /// <param name="line">A single line from a CSV file.</param>
+        /// <returns>An array of field values parsed from the line.</returns>
         private static string[] SplitCsvLine(string line)
         {
             var result = new List<string>();

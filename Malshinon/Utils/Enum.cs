@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace Malshinon
 {
+    /// <summary>
+    /// Contains enumerations used throughout the Malshinon system.
+    /// </summary>
     public class Enum
     {
+        /// <summary>
+        /// Represents the status of a person in the system.
+        /// </summary>
         public enum Status
-        {
-            Reporter = 1,
-            Target,
+        {      
+            Reporter = 1,            
+            Target,           
             Both,
             PotentialAgent
         }
     }
 }
-//enum(' reporter', 'target', 'both', 'potential_agent');	

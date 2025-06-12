@@ -16,11 +16,16 @@ namespace Malshinon
 
         static void Main(string[] args)
         {
+            //resetLogFile();
             ShowWelcomeScreen();
+            Pause();
             MainMenu();
         }
 
-        private static void ShowWelcomeScreen()
+        /// <summary>
+        /// The welcome screen that is displayed when the program starts.
+        /// </summary>
+        public static void ShowWelcomeScreen()
         {
             Console.Clear();
             Console.WriteLine("===============================================");
@@ -31,7 +36,10 @@ namespace Malshinon
             Console.WriteLine();
         }
 
-        private static void MainMenu()
+        /// <summary>
+        /// The main menu of the application, where users can choose different options.
+        /// </summary>
+        public static void MainMenu()
         {
             while (true)
             {
@@ -46,7 +54,7 @@ namespace Malshinon
                 Console.WriteLine("5. Show dashboard");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine("===============================================");
-              
+
                 Console.Write("Enter your choice (1-7): ");
                 string choice = Console.ReadLine();
 
@@ -83,8 +91,11 @@ namespace Malshinon
             }
         }
 
-        
 
+        /// <summary>
+        /// This method identifies the user by their first and last name. 
+        /// If the user is not found in the database, they are added as a new person.
+        /// </summary>
         public static void PersonIdentification()
         {
             Console.Write("Please enter your first name: ");
@@ -103,13 +114,15 @@ namespace Malshinon
                 PeopleDAL.AddPerson(firstName, lastName);
                 _currentUser = PeopleDAL.GetPeople(firstName, lastName).FirstOrDefault();
                 Console.WriteLine($"Welcome {_currentUser["first_name"]} {_currentUser["last_name"]}!");
-                Console.WriteLine($"Your secret code is: {_currentUser["secret_code"]}");
             }
         }
 
+        /// <summary>
+        /// The method to submit an intelligence report.
+        /// </summary>
         public static void IntelSubmission()
         {
-            PersonIdentification(); // Ensure user is identified before submitting a report
+            PersonIdentification();
             string secretCode = _currentUser["secret_code"].ToString();
             Console.WriteLine();
             Console.WriteLine("Please enter your report below:");
@@ -118,7 +131,6 @@ namespace Malshinon
             {
                 IntelService.SubmitReport(report, secretCode);
                 Console.WriteLine("Report submitted successfully!");
-                // reset current user after submission
                 _currentUser = null;
             }
             else
@@ -127,6 +139,9 @@ namespace Malshinon
             }
         }
 
+        /// <summary>
+        /// The method to show the user's secret code.
+        /// </summary>
         private static void ShowSecretCode()
         {
             // Ensure user is identified before showing secret code
@@ -148,14 +163,14 @@ namespace Malshinon
                 try
                 {
                     // Order matters due to foreign key constraints
-                    Malshinon.DB.DBConnection.Execute("DELETE FROM alerts");
-                    Malshinon.DB.DBConnection.Execute("ALTER TABLE alerts AUTO_INCREMENT = 1");
+                    DBConnection.Execute("DELETE FROM alerts");
+                    DBConnection.Execute("ALTER TABLE alerts AUTO_INCREMENT = 1");
 
-                    Malshinon.DB.DBConnection.Execute("DELETE FROM intelreports");
-                    Malshinon.DB.DBConnection.Execute("ALTER TABLE intelreports AUTO_INCREMENT = 1");
+                    DBConnection.Execute("DELETE FROM intelreports");
+                    DBConnection.Execute("ALTER TABLE intelreports AUTO_INCREMENT = 1");
 
-                    Malshinon.DB.DBConnection.Execute("DELETE FROM people");
-                    Malshinon.DB.DBConnection.Execute("ALTER TABLE people AUTO_INCREMENT = 1");
+                    DBConnection.Execute("DELETE FROM people");
+                    DBConnection.Execute("ALTER TABLE people AUTO_INCREMENT = 1");
 
                     Console.WriteLine("All tables have been cleared and auto-increment values reset.");
                     _currentUser = null;
@@ -171,6 +186,9 @@ namespace Malshinon
             }
         }
 
+        /// <summary>
+        /// This method displays the dashboard with potential recruits, dangerous targets, and all alerts.
+        /// </summary>
         public static void ShowDashboard()
         {
             Console.Clear();
@@ -208,11 +226,31 @@ namespace Malshinon
             Console.WriteLine("=======================================");
         }
 
-        private static void Pause()
+        /// <summary>
+        /// this method pauses the console and waits for the user to press any key to continue.
+        /// </summary>
+        public static void Pause()
         {
             Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// A method to reset the log file by clearing its contents.
+        /// </summary>
+        public static void resetLogFile()
+        {
+            string logFilePath = "log.txt";
+            if (File.Exists(logFilePath))
+            {
+                File.WriteAllText(logFilePath, string.Empty);
+                Console.WriteLine("Log file has been reset.");
+            }
+            else
+            {
+                Console.WriteLine("Log file does not exist.");
+            }
         }
     }
 }

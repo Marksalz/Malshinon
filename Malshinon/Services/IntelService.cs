@@ -6,8 +6,16 @@ using Malshinon.Services;
 
 namespace Malshinon.Services
 {
+    /// <summary>
+    /// Provides high-level services for submitting and processing intelligence reports.
+    /// </summary>
     public static class IntelService
     {
+        /// <summary>
+        /// Submits a new intelligence report and triggers alert generation if needed.
+        /// </summary>
+        /// <param name="report">The report text.</param>
+        /// <param name="reporterCode">The reporter's secret code.</param>
         public static void SubmitReport(string report, string reporterCode)
         {
             string targetName = ExtractNameOfTarget(report);
@@ -30,6 +38,15 @@ namespace Malshinon.Services
             //Console.WriteLine("Report submitted successfully!");
         }
 
+        /// <summary>
+        /// Submits a report from a CSV import, creating reporter/target if needed.
+        /// </summary>
+        /// <param name="reporterId">Reporter ID.</param>
+        /// <param name="reporterName">Reporter name.</param>
+        /// <param name="targetId">Target ID.</param>
+        /// <param name="targetName">Target name.</param>
+        /// <param name="intelText">Report text.</param>
+        /// <param name="timestamp">Timestamp of the report.</param>
         public static void submitReportFromCsv(int reporterId, string reporterName, int targetId,
             string targetName, string intelText, string timestamp)
         {
@@ -72,6 +89,11 @@ namespace Malshinon.Services
             AlertService.genarateAlertIfNeeded(targetId);
         }
 
+        /// <summary>
+        /// Extracts the name of the target from a report string.
+        /// </summary>
+        /// <param name="input">The report text.</param>
+        /// <returns>The extracted name, or null if not found.</returns>
         public static string ExtractNameOfTarget(string input)
         {
             string[] words = input.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -88,6 +110,11 @@ namespace Malshinon.Services
             return null;
         }
 
+        /// <summary>
+        /// Determines if a word is capitalized (first letter uppercase, rest lowercase).
+        /// </summary>
+        /// <param name="word">The word to check.</param>
+        /// <returns>True if capitalized, otherwise false.</returns>
         public static bool IsCapitalized(string word)
         {
             if (string.IsNullOrWhiteSpace(word) || word.Length < 2)
@@ -96,6 +123,11 @@ namespace Malshinon.Services
             return char.IsUpper(word[0]) && word.Substring(1) == word.Substring(1).ToLower();
         }
 
+        /// <summary>
+        /// Removes punctuation from the start and end of a word.
+        /// </summary>
+        /// <param name="word">The word to clean.</param>
+        /// <returns>The cleaned word.</returns>
         public static string Clean(string word)
         {
             // Remove punctuation from start and end  

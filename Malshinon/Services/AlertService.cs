@@ -9,8 +9,15 @@ using Utils;
 
 namespace Malshinon.Services
 {
+    /// <summary>
+    /// Provides services for generating alerts based on intelligence data.
+    /// </summary>
     public static class AlertService
     {
+        /// <summary>
+        /// Generates an alert for a target if they meet dangerous criteria.
+        /// </summary>
+        /// <param name="targetId">The target's ID.</param>
         public static void genarateAlertIfNeeded(int targetId)
         {
             // Check target's thresholds
@@ -29,7 +36,5 @@ namespace Malshinon.Services
                 Logger.Log(alertMsg);
             }
         }
-
-
     }
 }
