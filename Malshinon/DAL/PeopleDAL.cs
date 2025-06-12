@@ -25,15 +25,21 @@ namespace Malshinon.DAL
         {
             var sql = "SELECT * FROM people WHERE 1=1";
             if (!string.IsNullOrWhiteSpace(firstName))
-                sql += $" AND first_name LIKE '%{firstName}%'";
+                sql += $" AND first_name = '{firstName}'";
             if (!string.IsNullOrWhiteSpace(lastName))
-                sql += $" AND last_name LIKE '%{lastName}%'";
+                sql += $" AND last_name = '{lastName}'";
             return DBConnection.Execute(sql);
         }
 
         public static List<Dictionary<string, object>> GetPersonBySecretCode(string secretCode)
         {
             var sql = $"SELECT * FROM people WHERE secret_code = '{secretCode}'";
+            return DBConnection.Execute(sql);
+        }
+
+        public static List<Dictionary<string, object>> GetPersonById(int Id)
+        {
+            var sql = $"SELECT * FROM people WHERE id = '{Id}'";
             return DBConnection.Execute(sql);
         }
 
@@ -51,6 +57,20 @@ namespace Malshinon.DAL
         {
             List<Dictionary<string, object>> person = GetPersonBySecretCode(secretCode);
             return person != null && person.Count > 0;
+        }
+
+        // Returns all people with type = PotentialAgent
+        public static List<Dictionary<string, object>> GetPotentialRecruits()
+        {
+            return Malshinon.DB.DBConnection.Execute(
+                $"SELECT id, first_name, last_name FROM people WHERE type = {(int)Enum.Status.PotentialAgent}");
+        }
+
+        // Returns all targets with num_mentions >= 20
+        public static List<Dictionary<string, object>> GetDangerousTargets()
+        {
+            return Malshinon.DB.DBConnection.Execute(
+                $"SELECT id, first_name, last_name, num_mentions FROM people WHERE num_mentions >= 20");
         }
     }
 }

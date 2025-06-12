@@ -57,5 +57,10 @@ namespace Malshinon.DAL
             return false;
         }
 
+        // Returns all alerts
+        public static List<Dictionary<string, object>> GetAllAlerts()
+        {
+            return DBConnection.Execute("SELECT id, target_id, alert_text FROM alerts ORDER BY id DESC");
+        }
     }
 }

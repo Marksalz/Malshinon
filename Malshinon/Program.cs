@@ -1,4 +1,5 @@
 ﻿using Malshinon.DAL;
+using Malshinon.DB;
 using Malshinon.Services;
 using Malshinon.Utils;
 using System;
@@ -39,21 +40,14 @@ namespace Malshinon
                 Console.WriteLine("                   Main Menu                   ");
                 Console.WriteLine("===============================================");
                 Console.WriteLine("1. Import reports from CSV file");
-                Console.WriteLine("2. Log in / Switch user");
-                Console.WriteLine("3. Submit a new report");
-                Console.WriteLine("4. View your secret code");
-                Console.WriteLine("5. Clear all tables in the database");
+                Console.WriteLine("2. Submit a new report");
+                Console.WriteLine("3. View your secret code");
+                Console.WriteLine("4. Clear all tables in the database");
+                Console.WriteLine("5. Show dashboard");
                 Console.WriteLine("6. Exit");
                 Console.WriteLine("===============================================");
-                if (_currentUser != null)
-                {
-                    Console.WriteLine($"Current user: {_currentUser["first_name"]} {_currentUser["last_name"]}");
-                }
-                else
-                {
-                    Console.WriteLine("No user logged in.");
-                }
-                Console.Write("Enter your choice (1-6): ");
+              
+                Console.Write("Enter your choice (1-7): ");
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -63,19 +57,19 @@ namespace Malshinon
                         Pause();
                         break;
                     case "2":
-                        PersonIdentification();
-                        Pause();
-                        break;
-                    case "3":
                         IntelSubmission();
                         Pause();
                         break;
-                    case "4":
+                    case "3":
                         ShowSecretCode();
                         Pause();
                         break;
-                    case "5":
+                    case "4":
                         ClearAllTables();
+                        Pause();
+                        break;
+                    case "5":
+                        ShowDashboard();
                         Pause();
                         break;
                     case "6":
@@ -89,6 +83,8 @@ namespace Malshinon
             }
         }
 
+        
+
         public static void PersonIdentification()
         {
             Console.Write("Please enter your first name: ");
@@ -100,7 +96,6 @@ namespace Malshinon
             {
                 _currentUser = person;
                 Console.WriteLine($"Welcome {person["first_name"]} {person["last_name"]}!");
-                Console.WriteLine($"Your secret code is: {person["secret_code"]}");
             }
             else
             {
@@ -114,11 +109,7 @@ namespace Malshinon
 
         public static void IntelSubmission()
         {
-            if (_currentUser == null)
-            {
-                Console.WriteLine("No user identified. Please log in first (option 1).");
-                return;
-            }
+            PersonIdentification(); // Ensure user is identified before submitting a report
             string secretCode = _currentUser["secret_code"].ToString();
             Console.WriteLine();
             Console.WriteLine("Please enter your report below:");
@@ -127,6 +118,8 @@ namespace Malshinon
             {
                 IntelService.SubmitReport(report, secretCode);
                 Console.WriteLine("Report submitted successfully!");
+                // reset current user after submission
+                _currentUser = null;
             }
             else
             {
@@ -134,20 +127,17 @@ namespace Malshinon
             }
         }
 
-       
-
         private static void ShowSecretCode()
         {
-            if (_currentUser != null)
-            {
-                Console.WriteLine($"Your secret code is: {_currentUser["secret_code"]}");
-            }
-            else
-            {
-                Console.WriteLine("No user identified. Please log in first (option 1).");
-            }
+            // Ensure user is identified before showing secret code
+            PersonIdentification();
+            Console.WriteLine($"Your secret code is: {_currentUser["secret_code"]}");
+            _currentUser = null;
         }
 
+        /// <summary>
+        /// A method to clear all tables in the database. Only bening used for testing purposes.
+        /// </summary>
         private static void ClearAllTables()
         {
             Console.WriteLine("WARNING: This will delete ALL data from the database (people, intelreports, alerts).");
@@ -159,9 +149,15 @@ namespace Malshinon
                 {
                     // Order matters due to foreign key constraints
                     Malshinon.DB.DBConnection.Execute("DELETE FROM alerts");
+                    Malshinon.DB.DBConnection.Execute("ALTER TABLE alerts AUTO_INCREMENT = 1");
+
                     Malshinon.DB.DBConnection.Execute("DELETE FROM intelreports");
+                    Malshinon.DB.DBConnection.Execute("ALTER TABLE intelreports AUTO_INCREMENT = 1");
+
                     Malshinon.DB.DBConnection.Execute("DELETE FROM people");
-                    Console.WriteLine("All tables have been cleared.");
+                    Malshinon.DB.DBConnection.Execute("ALTER TABLE people AUTO_INCREMENT = 1");
+
+                    Console.WriteLine("All tables have been cleared and auto-increment values reset.");
                     _currentUser = null;
                 }
                 catch (Exception ex)
@@ -175,7 +171,42 @@ namespace Malshinon
             }
         }
 
-       
+        public static void ShowDashboard()
+        {
+            Console.Clear();
+            Console.WriteLine("============== DASHBOARD ==============");
+            Console.WriteLine();
+
+            // Potential Recruits
+            Console.WriteLine("Potential Recruits (Potential Agents):");
+            var recruits = PeopleDAL.GetPotentialRecruits();
+            if (recruits.Count == 0)
+                Console.WriteLine("  None found.");
+            else
+                DBConnection.PrintResult(recruits);
+
+            Console.WriteLine();
+
+            // Dangerous Targets
+            Console.WriteLine("Dangerous Targets:");
+            var dangerousTargets = PeopleDAL.GetDangerousTargets();
+            if (dangerousTargets.Count == 0)
+                Console.WriteLine("  None found.");
+            else
+                DBConnection.PrintResult(dangerousTargets);
+
+            Console.WriteLine();
+
+            // All Alerts
+            Console.WriteLine("All Alerts:");
+            var alerts = AlertDAL.GetAllAlerts();
+            if (alerts.Count == 0)
+                Console.WriteLine("  No alerts found.");
+            else
+                DBConnection.PrintResult(alerts);
+
+            Console.WriteLine("=======================================");
+        }
 
         private static void Pause()
         {

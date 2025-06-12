@@ -1,49 +1,49 @@
-reporter_id,target_id,intel_text,intel_timestamp
-1,7,"Grace Johnson was seen entering the building at 08:00 AM.",2024-06-01 08:05:00
-2,8,"Henry King met with a delivery person at the main gate.",2024-06-01 08:15:00
-3,9,"Irene Lewis was observed making several phone calls.",2024-06-01 08:30:00
-4,10,"Jack Miller was seen near the server room.",2024-06-01 08:45:00
-5,7,"Grace Johnson left the premises in a hurry.",2024-06-01 09:00:00
-6,8,"Henry King was carrying a large briefcase.",2024-06-01 09:20:00
-1,9,"Irene Lewis was seen talking to unknown individuals.",2024-06-01 09:40:00
-2,10,"Jack Miller entered the conference room alone.",2024-06-01 10:00:00
-3,7,"Grace Johnson was using a new access card.",2024-06-01 10:20:00
-4,8,"Henry King was seen at the back entrance.",2024-06-01 10:40:00
-5,9,"Irene Lewis was seen with a suspicious envelope.",2024-06-01 11:00:00
-6,10,"Jack Miller was seen leaving late at night.",2024-06-01 11:20:00
-1,7,"Grace Johnson was seen with a laptop near the lobby.",2024-06-01 11:40:00
-2,8,"Henry King was observed writing notes during the meeting.",2024-06-01 12:00:00
-3,9,"Irene Lewis was seen at the security desk.",2024-06-01 12:20:00
-4,10,"Jack Miller was seen with a camera.",2024-06-01 12:40:00
-5,7,"Grace Johnson was seen in the parking lot after hours.",2024-06-01 13:00:00
-6,8,"Henry King was seen with a new badge.",2024-06-01 13:20:00
-1,9,"Irene Lewis was seen entering a restricted area.",2024-06-01 13:40:00
-2,10,"Jack Miller was seen making a phone call outside.",2024-06-01 14:00:00
-3,7,"Grace Johnson was seen with a group of people.",2024-06-01 14:20:00
-4,8,"Henry King was seen leaving early.",2024-06-01 14:40:00
-5,9,"Irene Lewis was seen at the mailroom.",2024-06-01 15:00:00
-6,10,"Jack Miller was seen with a suspicious package.",2024-06-01 15:20:00
-1,7,"Grace Johnson was seen near the loading dock.",2024-06-01 15:40:00
-2,8,"Henry King was seen with a folder.",2024-06-01 16:00:00
-3,9,"Irene Lewis was seen talking to a stranger.",2024-06-01 16:20:00
-4,10,"Jack Miller was seen in the break room after hours.",2024-06-01 16:40:00
-5,7,"Grace Johnson was seen with a large envelope.",2024-06-01 17:00:00
-6,8,"Henry King was seen at the vending machine.",2024-06-01 17:20:00
-1,9,"Irene Lewis was seen with a USB drive.",2024-06-01 17:40:00
-2,10,"Jack Miller was seen with a notepad.",2024-06-01 18:00:00
-3,7,"Grace Johnson was seen at the front desk.",2024-06-01 18:20:00
-4,8,"Henry King was seen with a visitor.",2024-06-01 18:40:00
-5,9,"Irene Lewis was seen in the mailroom.",2024-06-01 19:00:00
-6,10,"Jack Miller was seen with a laptop bag.",2024-06-01 19:20:00
-1,7,"Grace Johnson was seen near the elevators.",2024-06-01 19:40:00
-2,8,"Henry King was seen with a folder.",2024-06-01 20:00:00
-3,9,"Irene Lewis was seen at the reception desk.",2024-06-01 20:20:00
-4,10,"Jack Miller was seen with a coffee cup.",2024-06-01 20:40:00
-5,7,"Grace Johnson was seen with a stack of papers.",2024-06-01 21:00:00
-6,8,"Henry King was seen in the hallway.",2024-06-01 21:20:00
-1,9,"Irene Lewis was seen with a backpack.",2024-06-01 21:40:00
-2,10,"Jack Miller was seen with a pen and notebook.",2024-06-01 22:00:00
-3,7,"Grace Johnson was seen at the front desk.",2024-06-01 22:20:00
-4,8,"Henry King was seen with a keycard.",2024-06-01 22:40:00
-5,9,"Irene Lewis was seen with a phone charger.",2024-06-01 23:00:00
-6,10,"Jack Miller was seen with a document folder.",2024-06-01 23:20:00
+reporter_id,reporter_name,target_id,target_name,intel_text,intel_timestamp
+1,Alice Smith,7,Grace Johnson,"Grace Johnson was seen entering the building at 08:00 AM.",2024-06-01 08:05:00
+2,Bob Carter,8,Henry King,"Henry King met with a delivery person at the main gate.",2024-06-01 08:15:00
+3,Carol Evans,9,Irene Lewis,"Irene Lewis was observed making several phone calls.",2024-06-01 08:30:00
+4,David Young,10,Jack Miller,"Jack Miller was seen near the server room.",2024-06-01 08:45:00
+5,Eva Reed,7,Grace Johnson,"Grace Johnson left the premises in a hurry.",2024-06-01 09:00:00
+6,Frank Moore,8,Henry King,"Henry King was carrying a large briefcase.",2024-06-01 09:20:00
+1,Alice Smith,9,Irene Lewis,"Irene Lewis was seen talking to unknown individuals.",2024-06-01 09:40:00
+2,Bob Carter,10,Jack Miller,"Jack Miller entered the conference room alone.",2024-06-01 10:00:00
+3,Carol Evans,7,Grace Johnson,"Grace Johnson was using a new access card.",2024-06-01 10:20:00
+4,David Young,8,Henry King,"Henry King was seen at the back entrance.",2024-06-01 10:40:00
+5,Eva Reed,9,Irene Lewis,"Irene Lewis was seen with a suspicious envelope.",2024-06-01 11:00:00
+6,Frank Moore,10,Jack Miller,"Jack Miller was seen leaving late at night.",2024-06-01 11:20:00
+1,Alice Smith,7,Grace Johnson,"Grace Johnson was seen with a laptop near the lobby.",2024-06-01 11:40:00
+2,Bob Carter,8,Henry King,"Henry King was observed writing notes during the meeting.",2024-06-01 12:00:00
+3,Carol Evans,9,Irene Lewis,"Irene Lewis was seen at the security desk.",2024-06-01 12:20:00
+4,David Young,10,Jack Miller,"Jack Miller was seen with a camera.",2024-06-01 12:40:00
+5,Eva Reed,7,Grace Johnson,"Grace Johnson was seen in the parking lot after hours.",2024-06-01 13:00:00
+6,Frank Moore,8,Henry King,"Henry King was seen with a new badge.",2024-06-01 13:20:00
+1,Alice Smith,9,Irene Lewis,"Irene Lewis was seen entering a restricted area.",2024-06-01 13:40:00
+2,Bob Carter,10,Jack Miller,"Jack Miller was seen making a phone call outside.",2024-06-01 14:00:00
+3,Carol Evans,7,Grace Johnson,"Grace Johnson was seen with a group of people.",2024-06-01 14:20:00
+4,David Young,8,Henry King,"Henry King was seen leaving early.",2024-06-01 14:40:00
+5,Eva Reed,9,Irene Lewis,"Irene Lewis was seen at the mailroom.",2024-06-01 15:00:00
+6,Frank Moore,10,Jack Miller,"Jack Miller was seen with a suspicious package.",2024-06-01 15:20:00
+1,Alice Smith,7,Grace Johnson,"Grace Johnson was seen near the loading dock.",2024-06-01 15:40:00
+2,Bob Carter,8,Henry King,"Henry King was seen with a folder.",2024-06-01 16:00:00
+3,Carol Evans,9,Irene Lewis,"Irene Lewis was seen talking to a stranger.",2024-06-01 16:20:00
+4,David Young,10,Jack Miller,"Jack Miller was seen in the break room after hours.",2024-06-01 16:40:00
+5,Eva Reed,7,Grace Johnson,"Grace Johnson was seen with a large envelope.",2024-06-01 17:00:00
+6,Frank Moore,8,Henry King,"Henry King was seen at the vending machine.",2024-06-01 17:20:00
+1,Alice Smith,9,Irene Lewis,"Irene Lewis was seen with a USB drive.",2024-06-01 17:40:00
+2,Bob Carter,10,Jack Miller,"Jack Miller was seen with a notepad.",2024-06-01 18:00:00
+3,Carol Evans,7,Grace Johnson,"Grace Johnson was seen at the front desk.",2024-06-01 18:20:00
+4,David Young,8,Henry King,"Henry King was seen with a visitor.",2024-06-01 18:40:00
+5,Eva Reed,9,Irene Lewis,"Irene Lewis was seen in the mailroom.",2024-06-01 19:00:00
+6,Frank Moore,10,Jack Miller,"Jack Miller was seen with a laptop bag.",2024-06-01 19:20:00
+1,Alice Smith,7,Grace Johnson,"Grace Johnson was seen near the elevators.",2024-06-01 19:40:00
+2,Bob Carter,8,Henry King,"Henry King was seen with a folder.",2024-06-01 20:00:00
+3,Carol Evans,9,Irene Lewis,"Irene Lewis was seen at the reception desk.",2024-06-01 20:20:00
+4,David Young,10,Jack Miller,"Jack Miller was seen with a coffee cup.",2024-06-01 20:40:00
+5,Eva Reed,7,Grace Johnson,"Grace Johnson was seen with a stack of papers.",2024-06-01 21:00:00
+6,Frank Moore,8,Henry King,"Henry King was seen in the hallway.",2024-06-01 21:20:00
+1,Alice Smith,9,Irene Lewis,"Irene Lewis was seen with a backpack.",2024-06-01 21:40:00
+2,Bob Carter,10,Jack Miller,"Jack Miller was seen with a pen and notebook.",2024-06-01 22:00:00
+3,Carol Evans,7,Grace Johnson,"Grace Johnson was seen at the front desk.",2024-06-01 22:20:00
+4,David Young,8,Henry King,"Henry King was seen with a keycard.",2024-06-01 22:40:00
+5,Eva Reed,9,Irene Lewis,"Irene Lewis was seen with a phone charger.",2024-06-01 23:00:00
+6,Frank Moore,10,Jack Miller,"Jack Miller was seen with a document folder.",2024-06-01 23:20:00
